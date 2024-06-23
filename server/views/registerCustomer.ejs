@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register Customer</title>
+</head>
+<body>
+    <h1>Register Customer</h1>
+    <form action="/api/v1/customers/register" method="post">
+        <div>
+            <label>First Name:</label>
+            <input type="text" name="FirstName" required>
+        </div>
+        <div>
+            <label>Middle Name:</label>
+            <input type="text" name="MiddleName">
+        </div>
+        <div>
+            <label>Last Name:</label>
+            <input type="text" name="LastName" required>
+        </div>
+        <div>
+            <label>Email:</label>
+            <input type="email" name="Email" required>
+        </div>
+        <div>
+            <label>Date of Birth:</label>
+            <input type="text" name="DateOfBirth" placeholder="DD/MM/YYYY" required>
+        </div>
+        <div>
+            <label>Current Address Duration:</label>
+            <select name="currentAddressDuration" required>
+                <option value="6 months or more">6 months or more</option>
+                <option value="Less than 6 months">Less than 6 months</option>
+            </select>
+        </div>
+        <div>
+            <h2>Address Details</h2>
+            <label>Building Name:</label>
+            <input type="text" name="AddressDetails[buildingName]">
+        </div>
+        <div>
+            <label>Flat or Building Number:</label>
+            <input type="text" name="AddressDetails[flatOrBuildingNumber]" required>
+        </div>
+        <div>
+            <label>Street Name:</label>
+            <input type="text" name="AddressDetails[streetName]" required>
+        </div>
+        <div>
+            <label>Town or City:</label>
+            <input type="text" name="AddressDetails[townOrCity]" required>
+        </div>
+        <div>
+            <label>State or Region:</label>
+            <input type="text" name="AddressDetails[stateOrRegion]" required>
+        </div>
+        <div>
+            <label>Postcode:</label>
+            <input type="text" name="AddressDetails[postcode]" required>
+        </div>
+        <div>
+            <label>Country:</label>
+            <input type="text" name="AddressDetails[country]" required>
+        </div>
+        <button type="submit">Register</button>
+    </form>
+</body>
+</html>
