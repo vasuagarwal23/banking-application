@@ -7,8 +7,6 @@ import dotenv from 'dotenv';
 dotenv.config();
 const employmentDetail = asyncHandler(async (req, res) => {
     const { customerId, employmentStatus, typeOfIndustry, occupation, income, nationality, taxResident } = req.body;
-
-    // Validate required fields
     if (
         [employmentStatus, typeOfIndustry, occupation, income, nationality, taxResident].some((field) => field?.trim() === "")
     ) {
