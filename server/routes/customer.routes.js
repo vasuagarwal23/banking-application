@@ -13,5 +13,9 @@ router.post('/registerCustomer', registerUser);
 router.post('/loginCustomer', loginUser);
 router.post('/logoutCustomer', verifyJWT, logoutUser);
 router.route("/refresh-token").post(refreshAccessToken);
+//When an API call fails due to an expired access token
+// (usually indicated by a 401 Unauthorized status), 
+//the client should catch this error and then call the /refresh-token
+// endpoint to get a new access token.
 router.route("/employeeDetails").post(employmentDetail);
 export default router;
