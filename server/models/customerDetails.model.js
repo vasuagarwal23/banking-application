@@ -1,9 +1,4 @@
 import mongoose, { Schema } from 'mongoose';
-import { PersonalDetails } from './personalDetails.model.js';
-import { AccountDetails } from './accountDetails.model.js';
-import { EmploymentDetails } from './employmentDetails.model.js';
-import { LoginDetails } from './loginDetails.model.js';
-
 // Customer schema definition
 const customerSchema = new Schema({
     personalDetails: {

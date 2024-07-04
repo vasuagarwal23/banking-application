@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 import bcrypt from 'bcrypt';
-
+import jwt from 'jsonwebtoken';
 // Custom validator for username
 const usernameValidator = (username) => {
     const usernameRegex = /^[a-zA-Z0-9]{8,20}$/;

@@ -3,26 +3,36 @@ import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { LoginDetails } from "../models/loginDetails.model.js";
 import { Customer } from "../models/customerDetails.model.js";
+import dotenv from 'dotenv';
 
+dotenv.config();
 const generateAccessAndRefereshTokens = async (userId) => {
     try {
-        const user = await LoginDetails.findById(userId)
-        const accessToken = LoginDetails.generateAccessToken()
-        const refreshToken = LoginDetails.generateRefreshToken()
+        // Find user by ID
+        const user = await LoginDetails.findById(userId);
 
-        user.refreshToken = refreshToken
-        await user.save({ validateBeforeSave: false })
+        if (!user) {
+            throw new Error("User not found"); // Adjust error message as needed
+        }
 
-        return { accessToken, refreshToken }
+        // Generate new tokens
+        const accessToken = user.generateAccessToken();
+        const refreshToken = user.generateRefreshToken();
 
+        // Update user's refreshToken field in the database
+        user.refreshToken = refreshToken;
+        await user.save({ validateBeforeSave: false });
 
+        return { accessToken, refreshToken };
     } catch (error) {
-        throw new ApiError(500, "Something went wrong while generating referesh and access token")
+        console.error("Error in generateAccessAndRefereshTokens:", error);
+        throw new ApiError(500, "Something went wrong while generating refresh and access tokens");
     }
 }
+
 const registerUser = asyncHandler(async (req, res) => {
 
-    const { username, password, customerId } = req.body;
+    const { username, password, customerId, confirmPassword } = req.body;
 
     // Check if customer exists
     const customer = await Customer.findById(customerId);
@@ -42,7 +52,9 @@ const registerUser = asyncHandler(async (req, res) => {
     if (existedUser) {
         throw new ApiError(409, "Customer with username already exists")
     }
-
+    if (password !== confirmPassword) {
+        throw new ApiError(400, "password and confirmPassword doesn't match");
+    }
     const user = await LoginDetails.create({
         username: username.toLowerCase(),
         password
@@ -88,7 +100,7 @@ const loginUser = asyncHandler(async (req, res) => {
         throw new ApiError(404, "Customer does not exist")
     }
 
-    const isPasswordValid = await LoginDetails.isPasswordCorrect(password)
+    const isPasswordValid = await user.isPasswordCorrect(password)
 
     if (!isPasswordValid) {
         throw new ApiError(401, "Invalid Customer credentials")
